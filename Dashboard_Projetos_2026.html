@@ -16,7 +16,6 @@
 }
 body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
 
-/* HEADER */
 .hdr{background:var(--syn-dark);padding:0 36px;display:flex;justify-content:space-between;align-items:center;height:64px}
 .hdr-l{display:flex;align-items:center;gap:20px}
 .hdr-logo{height:40px}
@@ -34,11 +33,11 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .fsel{
     padding:7px 12px;border-radius:8px;border:1.5px solid var(--border);
     font-size:12px;font-family:'Inter';font-weight:500;color:var(--text);
-    background:#fff;cursor:pointer;min-width:160px;
+    background:#fff;cursor:pointer;min-width:150px;
 }
 .fsel:focus{outline:none;border-color:var(--syn-green)}
+.fdiv{width:1px;height:28px;background:var(--border)}
 
-/* Savings Type Filter - special pill buttons */
 .sf-pills{display:flex;gap:6px;flex-wrap:wrap}
 .sf-pill{
     padding:7px 16px;border-radius:20px;border:1.5px solid var(--border);
@@ -48,9 +47,9 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .sf-pill:hover{border-color:var(--syn-green);color:var(--syn-green)}
 .sf-pill.active{background:var(--syn-dark);color:#fff;border-color:var(--syn-dark)}
 .sf-pill.active.cr{background:#00a651;border-color:#00a651}
-.sf-pill.active.ca{background:#f59e0b;border-color:#f59e0b;color:#fff}
-.sf-pill.active.cx{background:#3b82f6;border-color:#3b82f6}
-.sf-pill.active.op{background:#8b5cf6;border-color:#8b5cf6}
+.sf-pill.active.ca{background:#d97706;border-color:#d97706;color:#fff}
+.sf-pill.active.cx{background:#2563eb;border-color:#2563eb}
+.sf-pill.active.op{background:#7c3aed;border-color:#7c3aed}
 
 .freset{
     padding:7px 16px;border-radius:8px;border:none;background:var(--syn-dark);
@@ -61,7 +60,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 
 .ctn{max-width:1460px;margin:0 auto;padding:20px}
 
-/* KPIs */
 .kr{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-bottom:18px}
 .kr4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
 .kp{
@@ -81,7 +79,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .bg-orange{background:#ea580c}.bg-gray{background:#64748b}.bg-red{background:#dc2626}
 .bg-dark{background:#1a1a2e}.bg-pink{background:#db2777}.bg-cyan{background:#0891b2}.bg-purple{background:#7c3aed}
 
-/* Savings strip */
 .ss{
     background:var(--card);border-radius:12px;padding:16px 24px;margin-bottom:18px;
     display:flex;align-items:center;gap:24px;border:1px solid var(--border);box-shadow:var(--shadow);
@@ -92,7 +89,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .ss .dv{width:1px;height:32px;background:var(--border)}
 .ss .dt{font-size:12px;color:var(--text)}.ss .dt b{color:var(--syn-dark)}
 
-/* Grid */
 .g2{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:16px}
 .fw{grid-column:1/-1}
 .cd{background:var(--card);border-radius:12px;padding:20px;border:1px solid var(--border);box-shadow:var(--shadow)}
@@ -101,7 +97,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .ch{position:relative;width:100%}
 .ch280{height:280px}.ch300{height:300px}.ch340{height:340px}.ch380{height:380px}.ch420{height:420px}
 
-/* Table */
 .tw{overflow-x:auto;border-radius:10px;border:1px solid var(--border)}
 table{width:100%;border-collapse:collapse;font-size:11px}
 thead th{background:#f8fafc;padding:10px 12px;text-align:left;font-weight:700;font-size:9px;text-transform:uppercase;letter-spacing:.5px;color:var(--text-light);border-bottom:2px solid var(--border)}
@@ -149,7 +144,16 @@ tbody tr:hover{background:#f0fdf4}
             <button class="sf-pill op" data-sf="Operational" onclick="setSF(this)">Operational</button>
         </div>
     </div>
-    <div style="width:1px;height:28px;background:var(--border)"></div>
+    <div class="fdiv"></div>
+    <div class="fg">
+        <label>OPEX / CAPEX:</label>
+        <select id="fExp" class="fsel" onchange="applyFilters()">
+            <option value="ALL">Todos</option>
+            <option value="OPEX">OPEX</option>
+            <option value="CAPEX">CAPEX</option>
+        </select>
+    </div>
+    <div class="fdiv"></div>
     <div class="fg">
         <label>Categoria:</label>
         <select id="fCat" class="fsel" onchange="applyFilters()"><option value="ALL">Todas</option></select>
@@ -179,7 +183,7 @@ tbody tr:hover{background:#f0fdf4}
     <div class="g2"><div class="cd fw"><div class="ct"><span class="d bg-pink"></span>Top 15 Categorias (Nível 2)</div><div class="ch ch420"><canvas id="c7"></canvas></div></div></div>
     <div class="cd" style="margin-bottom:20px">
         <div class="ct"><span class="d bg-orange"></span>Top 20 Projetos por Savings 2026</div>
-        <div class="tw"><table><thead><tr><th>ID</th><th>Título</th><th>Status</th><th>Categoria</th><th>Owner</th><th style="text-align:right">Savings 2026</th></tr></thead><tbody id="tbl"></tbody></table></div>
+        <div class="tw"><table><thead><tr><th>ID</th><th>Título</th><th>Status</th><th>Categoria</th><th>Owner</th><th>Tipo</th><th style="text-align:right">Savings 2026</th></tr></thead><tbody id="tbl"></tbody></table></div>
     </div>
 </div>
 <div class="footer">Dashboard gerado por Austyn AI — Syngenta Indirect Procurement Brazil — Contagem distinta de projetos por ID</div>
@@ -196,7 +200,6 @@ const SC={'L4 - Realized':'#00a651','L1 - Idea':'#d97706','L2 - In Progress':'#2
 const CAT_C=['#00a651','#2563eb','#d97706','#dc2626','#7c3aed','#0891b2','#ea580c','#db2777','#64748b'];
 const BM={'L4 - Realized':'realized','L1 - Idea':'idea','L2 - In Progress':'progress','L3 - Implementation':'impl','On hold':'hold','Cancelled':'cancelled'};
 
-// Populate dropdowns
 CATS.forEach(c=>{const o=document.createElement('option');o.value=c;o.textContent=c;document.getElementById('fCat').appendChild(o)});
 STS.forEach(s=>{const o=document.createElement('option');o.value=s;o.textContent=s;document.getElementById('fSt').appendChild(o)});
 
@@ -213,12 +216,15 @@ function setSF(btn){
 function getFiltered(){
     let d=RAW;
     if(activeSF!=='ALL') d=d.filter(r=>r.sf===activeSF);
+    const exp=document.getElementById('fExp').value;
     const cat=document.getElementById('fCat').value;
     const st=document.getElementById('fSt').value;
+    if(exp!=='ALL') d=d.filter(r=>r.expense===exp);
     if(cat!=='ALL') d=d.filter(r=>r.cat1===cat);
     if(st!=='ALL') d=d.filter(r=>r.status===st);
     const fi=[];
     if(activeSF!=='ALL') fi.push(activeSF);
+    if(exp!=='ALL') fi.push(exp);
     if(cat!=='ALL') fi.push(cat);
     if(st!=='ALL') fi.push(st);
     document.getElementById('fInfo').textContent=fi.length?fi.join(' · '):'';
@@ -240,11 +246,8 @@ function buildKPIs(u,all){
     const pp=i1+i2+i3;
     const sv=all.reduce((s,r)=>s+r.savings,0);
     const pr=t?(r/t*100).toFixed(1):'0';
-
     const svS={};all.forEach(r=>{svS[r.status]=(svS[r.status]||0)+r.savings});
     const be=cntBy(u,'expense');
-
-    // SF counts
     const sfC=cntBy(all,'sf');
 
     document.getElementById('kr1').innerHTML=
@@ -277,36 +280,28 @@ function buildKPIs(u,all){
 function buildCharts(u,all){
     const dl={display:true,color:'#4a5568',font:{weight:'700',size:11},anchor:'end',align:'end'};
 
-    // 1 Status donut
-    const sc=cntBy(u,'status');
-    const sl=STS.filter(s=>sc[s]);
+    const sc=cntBy(u,'status');const sl=STS.filter(s=>sc[s]);
     mk('c1',{type:'doughnut',data:{labels:sl,datasets:[{data:sl.map(s=>sc[s]||0),backgroundColor:sl.map(s=>SC[s]),borderWidth:2,borderColor:'#fff',hoverOffset:6}]},options:{responsive:true,maintainAspectRatio:false,cutout:'56%',plugins:{legend:{position:'right',labels:{padding:12,usePointStyle:true,pointStyle:'circle',font:{size:10}}},datalabels:{color:'#333',font:{weight:'800',size:12},formatter:v=>v}}}});
 
-    // 2 Cat1 bar
     const cc=cntBy(u,'cat1');const cs=sortE(cc);
     mk('c2',{type:'bar',data:{labels:cs.map(e=>e[0]),datasets:[{data:cs.map(e=>e[1]),backgroundColor:CAT_C.slice(0,cs.length),borderRadius:5,borderSkipped:false}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},datalabels:{...dl,anchor:'end',align:'right'}},scales:{x:{grid:{color:'#f1f5f9'}},y:{grid:{display:false},ticks:{font:{size:10}}}}}});
 
-    // 3 Stacked Status x Category
     const cats=[...new Set(u.map(r=>r.cat1))].sort();
     const cd={};STS.forEach(s=>cd[s]={});u.forEach(r=>{cd[r.status][r.cat1]=(cd[r.status][r.cat1]||0)+1});
     const cds=STS.filter(s=>u.some(r=>r.status===s)).map(s=>({label:s,data:cats.map(c=>cd[s][c]||0),backgroundColor:SC[s]}));
     mk('c3',{type:'bar',data:{labels:cats,datasets:cds},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top',labels:{usePointStyle:true,pointStyle:'circle',padding:14,font:{size:10}}},datalabels:{display:ctx=>ctx.dataset.data[ctx.dataIndex]>3,color:'#fff',font:{weight:'700',size:9}}},scales:{x:{stacked:true,grid:{display:false},ticks:{font:{size:9},maxRotation:18}},y:{stacked:true,grid:{color:'#f1f5f9'}}}}});
 
-    // 4 Owner x Status stacked top 12
     const oc=cntBy(u,'owner');const to=sortE(oc).slice(0,12).map(e=>e[0]);
     const ox={};STS.forEach(s=>ox[s]={});u.filter(r=>to.includes(r.owner)).forEach(r=>{ox[r.status][r.owner]=(ox[r.status][r.owner]||0)+1});
     const ods=STS.filter(s=>u.some(r=>r.status===s)).map(s=>({label:s,data:to.map(o=>ox[s][o]||0),backgroundColor:SC[s]}));
     mk('c4',{type:'bar',data:{labels:to,datasets:ods},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top',labels:{usePointStyle:true,pointStyle:'circle',padding:14,font:{size:10}}},datalabels:{display:ctx=>ctx.dataset.data[ctx.dataIndex]>2,color:'#fff',font:{weight:'700',size:9}}},scales:{x:{stacked:true,grid:{display:false},ticks:{font:{size:9},maxRotation:30}},y:{stacked:true,grid:{color:'#f1f5f9'}}}}});
 
-    // 5 Savings por Cat
     const svC=sumBy(all,'cat1');const svCS=sortE(svC);
     mk('c5',{type:'bar',data:{labels:svCS.map(e=>e[0]),datasets:[{data:svCS.map(e=>e[1]),backgroundColor:'rgba(0,166,81,0.45)',borderColor:'#00a651',borderWidth:1,borderRadius:5}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},datalabels:{...dl,anchor:'end',align:'right',formatter:v=>v.toLocaleString('pt-BR')}},scales:{x:{grid:{color:'#f1f5f9'},ticks:{callback:v=>(v/1e6).toFixed(1)+'M'}},y:{grid:{display:false},ticks:{font:{size:9}}}}}});
 
-    // 6 Savings por Owner
     const svO=sumBy(all,'owner');const svOS=sortE(svO).slice(0,12);
     mk('c6',{type:'bar',data:{labels:svOS.map(e=>e[0]),datasets:[{data:svOS.map(e=>e[1]),backgroundColor:'rgba(124,58,237,0.4)',borderColor:'#7c3aed',borderWidth:1,borderRadius:5}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},datalabels:{...dl,anchor:'end',align:'right',formatter:v=>v.toLocaleString('pt-BR')}},scales:{x:{grid:{color:'#f1f5f9'},ticks:{callback:v=>(v/1e6).toFixed(1)+'M'}},y:{grid:{display:false},ticks:{font:{size:9}}}}}});
 
-    // 7 Cat2 top 15
     const c2c=cntBy(u,'cat2');const c2s=sortE(c2c).slice(0,15);
     mk('c7',{type:'bar',data:{labels:c2s.map(e=>e[0]),datasets:[{data:c2s.map(e=>e[1]),backgroundColor:'rgba(219,39,119,0.3)',borderColor:'#db2777',borderWidth:1,borderRadius:5,borderSkipped:false}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},datalabels:{...dl,anchor:'end',align:'right'}},scales:{x:{grid:{color:'#f1f5f9'}},y:{grid:{display:false},ticks:{font:{size:9}}}}}});
 }
@@ -317,8 +312,8 @@ function buildTable(all){
     let h='';
     t20.forEach(r=>{
         const bc=BM[r.status]||'hold';
-        const t=r.title.length>48?r.title.substring(0,48)+'...':r.title;
-        h+=`<tr><td>${r.id}</td><td>${t}</td><td><span class="badge badge-${bc}">${r.status}</span></td><td>${r.cat1}</td><td>${r.owner}</td><td class="num">${r.savings.toLocaleString('pt-BR')}</td></tr>`;
+        const t=r.title.length>45?r.title.substring(0,45)+'...':r.title;
+        h+=`<tr><td>${r.id}</td><td>${t}</td><td><span class="badge badge-${bc}">${r.status}</span></td><td>${r.cat1}</td><td>${r.owner}</td><td>${r.expense}</td><td class="num">${r.savings.toLocaleString('pt-BR')}</td></tr>`;
     });
     document.getElementById('tbl').innerHTML=h;
 }
@@ -332,6 +327,7 @@ function resetFilters(){
     activeSF='ALL';
     document.querySelectorAll('.sf-pill').forEach(p=>p.classList.remove('active'));
     document.querySelector('.sf-pill[data-sf="ALL"]').classList.add('active');
+    document.getElementById('fExp').value='ALL';
     document.getElementById('fCat').value='ALL';
     document.getElementById('fSt').value='ALL';
     applyFilters();
